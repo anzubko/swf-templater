@@ -15,7 +15,7 @@ class ArrayToSXE
     /**
      * Transforms array to SimpleXMLElement.
      *
-     * @param array<int|string,mixed> $array
+     * @param mixed[] $array
      *
      * @throws TemplaterException
      */
@@ -33,7 +33,7 @@ class ArrayToSXE
     /**
      * Base method for transform.
      *
-     * @param array<int|string,mixed> $array
+     * @param mixed[] $array
      */
     protected static function transformRecursive(array $array, string $item, SimpleXMLElement $sxe): SimpleXMLElement
     {

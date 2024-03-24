@@ -18,7 +18,7 @@ class XsltTemplater extends AbstractTemplater
      * @param string $dir Directory with templates.
      * @param string $root Name for root element.
      * @param string $item Name for numeric element.
-     * @param array<int|string,mixed> $globals Global variables.
+     * @param mixed[] $globals Global variables.
      */
     public function __construct(
         protected string $dir,
@@ -31,7 +31,7 @@ class XsltTemplater extends AbstractTemplater
     /**
      * @inheritDoc
      *
-     * @param array<int|string,mixed>|object|null $data
+     * @param mixed[]|object|null $data
      *
      * @throws TemplaterException
      */

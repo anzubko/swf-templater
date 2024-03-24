@@ -9,7 +9,7 @@ interface TemplaterInterface
     /**
      * Transforming template to page.
      *
-     * @param array<int|string,mixed>|object|null $data
+     * @param mixed[]|object|null $data
      *
      * @throws TemplaterException
      */

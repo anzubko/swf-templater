@@ -19,8 +19,8 @@ class TwigTemplater extends AbstractTemplater
      * @param bool|string $cache Cache directory.
      * @param bool $reload Reload the template if the original source changed.
      * @param bool $strict Whether to ignore invalid variables in templates.
-     * @param array<int|string,mixed> $globals Global variables.
-     * @param array<string,Closure> $functions Closure functions.
+     * @param mixed[] $globals Global variables.
+     * @param Closure[] $functions Closure functions.
      *
      * @throws TemplaterException
      */
@@ -53,7 +53,7 @@ class TwigTemplater extends AbstractTemplater
     /**
      * @inheritDoc
      *
-     * @param array<int|string,mixed>|object|null $data
+     * @param mixed[]|object|null $data
      *
      * @throws TemplaterException
      */

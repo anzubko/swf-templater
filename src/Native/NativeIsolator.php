@@ -14,13 +14,13 @@ use ValueError;
 class NativeIsolator
 {
     /**
-     * @var array<string,Closure>
+     * @var Closure[]
      */
     private array $__functions = [];
 
     /**
-     * @param array<string,mixed> $__globals
-     * @param array<string,Closure> $__functions
+     * @param mixed[] $__globals
+     * @param Closure[] $__functions
      *
      * @throws TemplaterException
      */

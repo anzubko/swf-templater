@@ -14,8 +14,8 @@ class NativeTemplater extends AbstractTemplater
      * @param string $dir Directory with templates.
      * @param bool $minify Minify processed templates.
      * @param bool $debug Makes minified template more readable.
-     * @param array<string,mixed> $globals Global variables.
-     * @param array<string,Closure> $functions Closure functions.
+     * @param mixed[] $globals Global variables.
+     * @param Closure[] $functions Closure functions.
      */
     public function __construct(
         protected string $dir,
@@ -54,7 +54,7 @@ class NativeTemplater extends AbstractTemplater
     /**
      * @inheritDoc
      *
-     * @param array<string,mixed>|object|null $data
+     * @param mixed[]|object|null $data
      *
      * @throws TemplaterException
      */
