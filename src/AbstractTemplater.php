@@ -6,9 +6,9 @@ use SWF\Interface\TemplaterInterface;
 
 abstract class AbstractTemplater implements TemplaterInterface
 {
-    protected const string DEFAULT_MIME = 'text/plain';
+    protected const DEFAULT_MIME = 'text/plain';
 
-    protected const array SUPPORTED_MIMES = [
+    protected const SUPPORTED_MIMES = [
         'txt' => 'text/plain',
         'html' => 'text/html',
         'css' => 'text/css',
