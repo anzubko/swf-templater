@@ -51,8 +51,7 @@ class NativeIsolator
     public function __call(string $name, array $arguments = []): mixed
     {
         try {
-            /** @phpstan-ignore-next-line */
-            return ($this->__functions[$name] ?? null)(...$arguments);
+            return ($this->__functions[$name] ?? null)(...$arguments); // @phpstan-ignore-line
         } catch (TemplaterException $e) {
             throw $e;
         } catch (Throwable $e) {
