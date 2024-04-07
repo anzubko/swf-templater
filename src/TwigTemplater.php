@@ -15,10 +15,10 @@ class TwigTemplater extends AbstractTemplater
 
     /**
      * @param string $dir Directory with templates.
-     * @param bool $debug Sets reload to true.
-     * @param bool|string $cache Cache directory.
-     * @param bool $reload Reload the template if the original source changed.
+     * @param string|null $cache Cache directory.
      * @param bool $strict Whether to ignore invalid variables in templates.
+     * @param bool $debug Sets reload to true.
+     * @param bool $reload Reload the template if the original source changed.
      * @param mixed[] $globals Global variables.
      * @param Closure[] $functions Closure functions.
      *
@@ -26,17 +26,17 @@ class TwigTemplater extends AbstractTemplater
      */
     public function __construct(
         string $dir,
+        ?string $cache = null,
+        bool $strict = false,
         bool $debug = false,
-        bool|string $cache = false,
         bool $reload = false,
-        bool $strict = true,
         protected array $globals = [],
         array $functions = [],
     ) {
         try {
             $this->twig = new TwigEnvironment(new TwigFilesystemLoader($dir), [
                 'debug' => $debug,
-                'cache' => $cache,
+                'cache' => $cache ?? false,
                 'auto_reload' => $reload,
                 'strict_variables' => $strict,
                 'autoescape' => 'name',
@@ -53,18 +53,18 @@ class TwigTemplater extends AbstractTemplater
     /**
      * @inheritDoc
      *
-     * @param mixed[]|object|null $data
+     * @param mixed[]|null $data
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, array|object|null $data = null): string
+    public function transform(string $filename, ?array $data = null): string
     {
         $timer = gettimeofday(true);
 
         $filename = $this->normalizeFilename($filename, 'twig');
 
         try {
-            $contents = $this->twig->render($filename, (array) $data + $this->globals);
+            $contents = $this->twig->render($filename, $data + $this->globals);
         } catch (Throwable $e) {
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }

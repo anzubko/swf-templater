@@ -9,11 +9,11 @@ interface TemplaterInterface
     /**
      * Transforming template to page.
      *
-     * @param mixed[]|object|null $data
+     * @param mixed[]|null $data
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, array|object|null $data = null): string;
+    public function transform(string $filename, ?array $data = null): string;
 
     /**
      * Gets last template mime type.

@@ -54,11 +54,11 @@ class NativeTemplater extends AbstractTemplater
     /**
      * @inheritDoc
      *
-     * @param mixed[]|object|null $data
+     * @param mixed[]|null $data
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, array|object|null $data = null): string
+    public function transform(string $filename, ?array $data = null): string
     {
         $timer = gettimeofday(true);
 
@@ -67,7 +67,7 @@ class NativeTemplater extends AbstractTemplater
         ob_start(fn() => null);
 
         try {
-            new NativeIsolator($filename, (array) $data + $this->globals, $this->functions);
+            new NativeIsolator($filename, $data + $this->globals, $this->functions);
         } catch (TemplaterException $e) {
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }
