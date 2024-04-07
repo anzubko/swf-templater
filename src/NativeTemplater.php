@@ -19,7 +19,7 @@ class NativeTemplater extends AbstractTemplater
      */
     public function __construct(
         protected string $dir,
-        protected bool $minify = true,
+        protected bool $minify = false,
         protected bool $debug = false,
         protected array $globals = [],
         protected array $functions = [],

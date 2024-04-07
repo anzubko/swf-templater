@@ -29,7 +29,7 @@ class TwigTemplater extends AbstractTemplater
         bool $debug = false,
         bool|string $cache = false,
         bool $reload = false,
-        bool $strict = false,
+        bool $strict = true,
         protected array $globals = [],
         array $functions = [],
     ) {
