@@ -74,7 +74,7 @@ class NativeTemplater extends AbstractTemplater
 
         $contents = (string) ob_get_clean();
 
-        if ($this->minify && 'text/html' === $this->mime) {
+        if ($this->minify && 'text/html' === $this->type) {
             if ($this->debug) {
                 $contents = NativeDebugger::transform($contents);
             } else {

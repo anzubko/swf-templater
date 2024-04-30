@@ -18,7 +18,7 @@ interface TemplaterInterface
     /**
      * Gets last template mime type.
      */
-    public function getMime(): string;
+    public function getType(): string;
 
     /**
      * Gets timer of processed templates.

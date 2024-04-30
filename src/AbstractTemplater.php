@@ -6,9 +6,9 @@ use SWF\Interface\TemplaterInterface;
 
 abstract class AbstractTemplater implements TemplaterInterface
 {
-    protected const DEFAULT_MIME = 'text/plain';
+    protected const DEFAULT_TYPE = 'text/plain';
 
-    protected const SUPPORTED_MIMES = [
+    protected const SUPPORTED_TYPES_BY_EXTENSIONS = [
         'txt' => 'text/plain',
         'html' => 'text/html',
         'css' => 'text/css',
@@ -18,9 +18,10 @@ abstract class AbstractTemplater implements TemplaterInterface
         'rtf' => 'application/rtf',
     ];
 
-    protected string $mime = self::DEFAULT_MIME;
+    protected string $type = self::DEFAULT_TYPE;
 
     protected static float $timer = 0.0;
+
     protected static int $counter = 0;
 
     protected function normalizeFilename(string $filename, string $extension, ?string $dir = null): string
@@ -30,9 +31,9 @@ abstract class AbstractTemplater implements TemplaterInterface
         }
 
         if (preg_match('/\.([^.]+)\.[^.]+$/', $filename, $M)) {
-            $this->mime = self::SUPPORTED_MIMES[$M[1]] ?? self::DEFAULT_MIME;
+            $this->type = self::SUPPORTED_TYPES_BY_EXTENSIONS[$M[1]] ?? self::DEFAULT_TYPE;
         } else {
-            $this->mime = self::DEFAULT_MIME;
+            $this->type = self::DEFAULT_TYPE;
         }
 
         if (null === $dir) {
@@ -45,9 +46,9 @@ abstract class AbstractTemplater implements TemplaterInterface
     /**
      * @inheritDoc
      */
-    public function getMime(): string
+    public function getType(): string
     {
-        return $this->mime;
+        return $this->type;
     }
 
     /**
