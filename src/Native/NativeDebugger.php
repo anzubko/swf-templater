@@ -25,7 +25,7 @@ class NativeDebugger extends NativeMinifier
      */
     protected static function between(string $chunk): string
     {
-        $chunk = (string) preg_replace_callback('~<[a-z][^>]+>~i', fn($M) => preg_replace('/\s+/u', ' ', $M[0]), $chunk);
+        $chunk = (string) preg_replace_callback('~<[a-z][^>]+>~i', fn($M) => (string) preg_replace('/\s+/u', ' ', $M[0]), $chunk);
 
         $chunk = (string) preg_replace('/>(\s+)</u', '><!--\1--><', $chunk);
 
