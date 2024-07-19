@@ -11,9 +11,7 @@ class NativeMinifier
      */
     public static function transform(string $contents): string
     {
-        preg_match_all('~<(script|style|t)\b[^>]*+>.*?</\1>~is', $contents, $matches,
-            flags: PREG_OFFSET_CAPTURE | PREG_SET_ORDER,
-        );
+        preg_match_all('~<(script|style|t)\b[^>]*+>.*?</\1>~is', $contents, $matches, flags: PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
 
         $pos = 0;
         $chunks = [];
@@ -46,7 +44,7 @@ class NativeMinifier
      */
     protected static function script(string $chunk): string
     {
-        return (string) preg_replace('/[ \t\n\r\v\f\0]+/', ' ', $chunk);
+        return (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk);
     }
 
     /**
@@ -54,7 +52,7 @@ class NativeMinifier
      */
     protected static function style(string $chunk): string
     {
-        return (string) preg_replace('/[ \t\n\r\v\f\0]+/', ' ', $chunk);
+        return (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk);
     }
 
     /**
@@ -67,6 +65,6 @@ class NativeMinifier
             return '';
         }
 
-        return str_replace('> <', '><', (string) preg_replace('/[ \t\n\r\v\f\0]+/', ' ', $chunk));
+        return str_replace('> <', '><', (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk));
     }
 }
