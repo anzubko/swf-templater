@@ -45,9 +45,7 @@ class NativeTemplater extends AbstractTemplater
                 return '""';
             }
 
-            $flags = JSON_UNESCAPED_UNICODE | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG;
-
-            return str_replace(' ', '\\x20', (string) json_encode($string, $flags));
+            return str_replace(' ', '\\x20', (string) json_encode($string, JSON_UNESCAPED_UNICODE | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG));
         };
     }
 
