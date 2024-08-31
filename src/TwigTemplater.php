@@ -27,7 +27,7 @@ class TwigTemplater extends AbstractTemplater
     public function __construct(
         string $dir,
         ?string $cache = null,
-        bool $strict = false,
+        bool $strict = true,
         bool $debug = false,
         bool $reload = false,
         protected array $globals = [],
