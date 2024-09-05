@@ -41,38 +41,34 @@ class ArrayToSXE
             if (is_int($key)) {
                 if (is_scalar($value)) {
                     $sxe->{$item}[] = $value;
-                } elseif (is_array($value)) {
-                    self::transformRecursive($sxe->addChild($item), $value, $item);
-                } elseif (is_object($value)) {
-                    self::transformRecursiveObject($sxe, $value, $item, $item);
+                } elseif ($value instanceof SimpleXMLElement) {
+                    self::transformRecursiveSXE($sxe, $value, $item);
+                } elseif (is_object($value) || is_array($value)) {
+                    self::transformRecursive($sxe->addChild($item), (array) $value, $item);
                 }
-            } else {
-                if (str_starts_with($key, '@')) {
-                    $sxe[substr($key, 1)] = $value;
-                } elseif (is_scalar($value)) {
-                    $sxe->{$key} = $value;
-                } elseif (is_array($value)) {
-                    self::transformRecursive($sxe->addChild($key), $value, $item);
-                } elseif (is_object($value)) {
-                    self::transformRecursiveObject($sxe, $value, $key, $item);
-                }
+            } elseif (str_starts_with($key, '@')) {
+                $sxe[substr($key, 1)] = $value;
+            } elseif (is_scalar($value)) {
+                $sxe->{$key} = $value;
+            } elseif ($value instanceof SimpleXMLElement) {
+                self::transformRecursiveSXE($sxe, $value, $key);
+            } elseif (is_object($value) || is_array($value)) {
+                self::transformRecursive($sxe->addChild($key), (array) $value, $item);
             }
         }
 
         return $sxe;
     }
 
-    private static function transformRecursiveObject(SimpleXMLElement $sxe, object $object, string $name, string $item): void
+    private static function transformRecursiveSXE(SimpleXMLElement $sxe, SimpleXMLElement $object, string $name): void
     {
-        if ($object instanceof SimpleXMLElement) {
-            $node = dom_import_simplexml($sxe->addChild($name));
-            if (null !== $node->ownerDocument) {
-                foreach (dom_import_simplexml($object)->childNodes as $child) {
-                    $node->appendChild($node->ownerDocument->importNode($child, true));
-                }
-            }
-        } else {
-            self::transformRecursive($sxe->addChild($name), (array) $object, $item);
+        $node = dom_import_simplexml($sxe->addChild($name));
+        if (null === $node->ownerDocument) {
+            return;
+        }
+
+        foreach (dom_import_simplexml($object)->childNodes as $child) {
+            $node->appendChild($node->ownerDocument->importNode($child, true));
         }
     }
 }
