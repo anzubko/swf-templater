@@ -27,7 +27,7 @@ class ArrayToSXE
             throw new TemplaterException($e->getMessage());
         }
 
-        return static::transformRecursive($sxe, $array, $item);
+        return self::transformRecursive($sxe, $array, $item);
     }
 
     /**
@@ -42,7 +42,7 @@ class ArrayToSXE
                 if (is_scalar($value)) {
                     $sxe->{$item}[] = $value;
                 } elseif (is_array($value)) {
-                    static::transformRecursive($sxe->addChild($item), $value, $item);
+                    self::transformRecursive($sxe->addChild($item), $value, $item);
                 } elseif (is_object($value)) {
                     self::transformRecursiveObject($sxe, $value, $item, $item);
                 }
@@ -52,7 +52,7 @@ class ArrayToSXE
                 } elseif (is_scalar($value)) {
                     $sxe->{$key} = $value;
                 } elseif (is_array($value)) {
-                    static::transformRecursive($sxe->addChild($key), $value, $item);
+                    self::transformRecursive($sxe->addChild($key), $value, $item);
                 } elseif (is_object($value)) {
                     self::transformRecursiveObject($sxe, $value, $key, $item);
                 }
@@ -72,7 +72,7 @@ class ArrayToSXE
                 }
             }
         } else {
-            static::transformRecursive($sxe->addChild($name), (array) $object, $item);
+            self::transformRecursive($sxe->addChild($name), (array) $object, $item);
         }
     }
 }
