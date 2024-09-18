@@ -4,9 +4,8 @@ namespace SWF;
 
 use Closure;
 use SWF\Exception\TemplaterException;
-use SWF\Native\NativeDebugger;
-use SWF\Native\NativeIsolator;
-use SWF\Native\NativeMinifier;
+use SWF\PostProcessor\HTMLDebugger;
+use SWF\PostProcessor\HTMLMinifier;
 
 class NativeTemplater extends AbstractTemplater
 {
@@ -74,9 +73,9 @@ class NativeTemplater extends AbstractTemplater
 
         if ($this->minify && 'text/html' === $this->type) {
             if ($this->debug) {
-                $contents = NativeDebugger::transform($contents);
+                $contents = HTMLDebugger::transform($contents);
             } else {
-                $contents = NativeMinifier::transform($contents);
+                $contents = HTMLMinifier::transform($contents);
             }
         }
 

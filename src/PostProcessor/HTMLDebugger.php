@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace SWF\Native;
+namespace SWF\PostProcessor;
 
-class NativeDebugger extends NativeMinifier
+class HTMLDebugger extends AbstractPostProcessor
 {
     /**
-     * Leaves javascript as is.
+     * @inheritDoc
      */
     protected static function script(string $chunk): string
     {
@@ -13,7 +13,7 @@ class NativeDebugger extends NativeMinifier
     }
 
     /**
-     * Leaves styles as is.
+     * @inheritDoc
      */
     protected static function style(string $chunk): string
     {
@@ -21,7 +21,7 @@ class NativeDebugger extends NativeMinifier
     }
 
     /**
-     * Leaves comments and comment spaces that Minifier cuts out.
+     * @inheritDoc
      */
     protected static function between(string $chunk): string
     {

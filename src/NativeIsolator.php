@@ -1,17 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace SWF\Native;
+namespace SWF;
 
 use AllowDynamicProperties;
 use ArgumentCountError;
 use Closure;
+use stdClass;
 use SWF\Exception\TemplaterException;
 use Throwable;
 use TypeError;
 use ValueError;
 
 #[AllowDynamicProperties]
-class NativeIsolator
+class NativeIsolator extends stdClass
 {
     /**
      * @var Closure[]

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace SWF\Native;
+namespace SWF\PostProcessor;
 
 use function strlen;
 
-class NativeMinifier
+abstract class AbstractPostProcessor
 {
     /**
      * Minifies all.
@@ -42,29 +42,15 @@ class NativeMinifier
     /**
      * Minifies javascript.
      */
-    protected static function script(string $chunk): string
-    {
-        return (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk);
-    }
+    abstract protected static function script(string $chunk): string;
 
     /**
      * Minifies styles.
      */
-    protected static function style(string $chunk): string
-    {
-        return (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk);
-    }
+    abstract protected static function style(string $chunk): string;
 
     /**
      * Minifies all between matches.
      */
-    protected static function between(string $chunk): string
-    {
-        $chunk = trim((string) preg_replace('/<!--.*?-->/s', '', $chunk));
-        if ('' === $chunk) {
-            return '';
-        }
-
-        return str_replace('> <', '><', (string) preg_replace("/[ \t\n\r\v\f]+/", ' ', $chunk));
-    }
+    abstract protected static function between(string $chunk): string;
 }
