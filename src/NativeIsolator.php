@@ -5,14 +5,13 @@ namespace SWF;
 use AllowDynamicProperties;
 use ArgumentCountError;
 use Closure;
-use stdClass;
 use SWF\Exception\TemplaterException;
 use Throwable;
 use TypeError;
 use ValueError;
 
 #[AllowDynamicProperties]
-class NativeIsolator extends stdClass
+class NativeIsolator
 {
     /**
      * @var Closure[]
