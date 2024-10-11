@@ -52,7 +52,10 @@ class NativeIsolator
     public function __call(string $name, array $arguments = []): mixed
     {
         try {
-            return ($this->__functions[$name] ?? null)(...$arguments); // @phpstan-ignore-line
+            /**
+             * @phpstan-ignore callable.nonCallable
+             */
+            return ($this->__functions[$name] ?? null)(...$arguments);
         } catch (TemplaterException $e) {
             throw $e;
         } catch (Throwable $e) {
