@@ -35,15 +35,15 @@ class XsltTemplater extends AbstractTemplater
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): string
+    public function transform(string $filename, ?array $data = null): ProcessedTemplate
     {
         $timer = gettimeofday(true);
 
-        $filename = $this->normalizeFilename($filename, 'xsl', $this->dir);
+        $normalizedFilename = $this->normalizeFilename($filename, 'xsl', $this->dir);
 
-        if (!isset($this->processors[$filename])) {
+        if (!isset($this->processors[$normalizedFilename->getFilename()])) {
             $doc = new DOMDocument();
-            if (!$doc->load($filename, LIBXML_NOCDATA)) {
+            if (!$doc->load($normalizedFilename->getFilename(), LIBXML_NOCDATA)) {
                 throw new TemplaterException('XSL loading error');
             }
 
@@ -52,20 +52,18 @@ class XsltTemplater extends AbstractTemplater
                 throw new TemplaterException('XSL import error');
             }
 
-            $this->processors[$filename] = $processor;
+            $this->processors[$normalizedFilename->getFilename()] = $processor;
         }
 
         $sxe = ArrayToSXE::transform($data + $this->globals, $this->root, $this->item);
 
-        $contents = $this->processors[$filename]->transformToXML($sxe) ?? '';
-        if (false === $contents) {
+        $body = $this->processors[$normalizedFilename->getFilename()]->transformToXML($sxe) ?? '';
+        if (false === $body) {
             throw new TemplaterException('XSL transform error');
         }
 
-        self::$timer += gettimeofday(true) - $timer;
+        $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        self::$counter += 1;
-
-        return $contents;
+        return new ProcessedTemplate($body, $normalizedFilename->getType());
     }
 }

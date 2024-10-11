@@ -57,22 +57,20 @@ class TwigTemplater extends AbstractTemplater
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): string
+    public function transform(string $filename, ?array $data = null): ProcessedTemplate
     {
         $timer = gettimeofday(true);
 
-        $filename = $this->normalizeFilename($filename, 'twig');
+        $normalizedFilename = $this->normalizeFilename($filename, 'twig');
 
         try {
-            $contents = $this->twig->render($filename, $data + $this->globals);
+            $body = $this->twig->render($normalizedFilename->getFilename(), $data + $this->globals);
         } catch (Throwable $e) {
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }
 
-        self::$timer += gettimeofday(true) - $timer;
+        $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        self::$counter += 1;
-
-        return $contents;
+        return new ProcessedTemplate($body, $normalizedFilename->getType());
     }
 }

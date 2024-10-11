@@ -55,34 +55,32 @@ class NativeTemplater extends AbstractTemplater
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): string
+    public function transform(string $filename, ?array $data = null): ProcessedTemplate
     {
         $timer = gettimeofday(true);
 
-        $filename = $this->normalizeFilename($filename, 'php', $this->dir);
+        $normalizedFilename = $this->normalizeFilename($filename, 'php', $this->dir);
 
         ob_start(fn() => null);
 
         try {
-            new NativeIsolator($filename, $data + $this->globals, $this->functions);
+            new NativeIsolator($normalizedFilename->getFilename(), $data + $this->globals, $this->functions);
         } catch (TemplaterException $e) {
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }
 
-        $contents = (string) ob_get_clean();
+        $body = (string) ob_get_clean();
 
-        if ($this->minify && 'text/html' === $this->type) {
+        if ($this->minify && 'text/html' === $normalizedFilename->getType()) {
             if ($this->debug) {
-                $contents = HTMLDebugger::transform($contents);
+                $body = HTMLDebugger::transform($body);
             } else {
-                $contents = HTMLMinifier::transform($contents);
+                $body = HTMLMinifier::transform($body);
             }
         }
 
-        self::$timer += gettimeofday(true) - $timer;
+        $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        self::$counter += 1;
-
-        return $contents;
+        return new ProcessedTemplate($body, $normalizedFilename->getType());
     }
 }

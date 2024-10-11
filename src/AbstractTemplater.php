@@ -6,57 +6,16 @@ use SWF\Interface\TemplaterInterface;
 
 abstract class AbstractTemplater implements TemplaterInterface
 {
-    protected const DEFAULT_TYPE = 'text/plain';
+    private float $timer = 0.0;
 
-    protected const SUPPORTED_TYPES_BY_EXTENSIONS = [
-        'txt' => 'text/plain',
-        'html' => 'text/html',
-        'css' => 'text/css',
-        'js' => 'application/javascript',
-        'json' => 'application/json',
-        'xml' => 'application/xml',
-        'rtf' => 'application/rtf',
-    ];
-
-    protected string $type = self::DEFAULT_TYPE;
-
-    protected static float $timer = 0.0;
-
-    protected static int $counter = 0;
-
-    protected function normalizeFilename(string $filename, string $extension, ?string $dir = null): string
-    {
-        if (!str_ends_with($filename, '.' . $extension)) {
-            $filename .= '.' . $extension;
-        }
-
-        if (preg_match('/\.([^.]+)\.[^.]+$/', $filename, $M)) {
-            $this->type = self::SUPPORTED_TYPES_BY_EXTENSIONS[$M[1]] ?? self::DEFAULT_TYPE;
-        } else {
-            $this->type = self::DEFAULT_TYPE;
-        }
-
-        if (null === $dir) {
-            return $filename;
-        }
-
-        return sprintf('%s/%s', $dir, $filename);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
+    private int $counter = 0;
 
     /**
      * @inheritDoc
      */
     public function getTimer(): float
     {
-        return self::$timer;
+        return $this->timer;
     }
 
     /**
@@ -64,6 +23,34 @@ abstract class AbstractTemplater implements TemplaterInterface
      */
     public function getCounter(): int
     {
-        return self::$counter;
+        return $this->counter;
+    }
+
+    protected function incTimerAndCounter(float $timer): void
+    {
+        $this->timer += $timer;
+        TemplaterRegistry::$timer += $timer;
+
+        $this->counter++;
+        TemplaterRegistry::$counter++;
+    }
+
+    protected function normalizeFilename(string $filename, string $extension, ?string $dir = null): TemplateFilename
+    {
+        $dotExtension = sprintf('.%s', $extension);
+        if (!str_ends_with($filename, $dotExtension)) {
+            $filename .= $dotExtension;
+        }
+
+        $type = null;
+        if (preg_match('/\.([^.]+)\.[^.]+$/', $filename, $M)) {
+            $type = TemplaterRegistry::$supportedTypesByExtensions[$M[1]] ?? null;
+        }
+
+        if (null !== $dir) {
+            $filename = sprintf('%s/%s', $dir, $filename);
+        }
+
+        return new TemplateFilename($filename, $type ?? TemplaterRegistry::$defaultType);
     }
 }

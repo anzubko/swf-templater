@@ -3,6 +3,7 @@
 namespace SWF\Interface;
 
 use SWF\Exception\TemplaterException;
+use SWF\ProcessedTemplate;
 
 interface TemplaterInterface
 {
@@ -13,12 +14,7 @@ interface TemplaterInterface
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): string;
-
-    /**
-     * Gets last template mime type.
-     */
-    public function getType(): string;
+    public function transform(string $filename, ?array $data = null): ProcessedTemplate;
 
     /**
      * Gets timer of processed templates.
