@@ -7,6 +7,7 @@ use Closure;
 use SWF\Exception\TemplaterException;
 use SWF\PostProcessor\HTMLDebugger;
 use SWF\PostProcessor\HTMLMinifier;
+use Throwable;
 
 class NativeTemplater extends AbstractTemplater
 {
@@ -62,11 +63,17 @@ class NativeTemplater extends AbstractTemplater
 
         $normalizedFilename = $this->normalizeFilename($filename, 'php', $this->dir);
 
-        ob_start(fn() => null);
+        if (!ob_start(fn() => null)) {
+            throw new TemplaterException('Unable to turn on output buffering');
+        }
 
         try {
             new NativeIsolator($normalizedFilename->getFilename(), $data + $this->globals, $this->functions);
-        } catch (TemplaterException $e) {
+        } catch (Throwable $e) {
+            while (ob_get_length()) {
+                ob_end_clean();
+            }
+
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }
 

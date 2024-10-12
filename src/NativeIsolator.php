@@ -37,7 +37,9 @@ class NativeIsolator
 
         require $__filename;
 
-        ob_clean();
+        if (ob_get_length()) {
+            ob_clean();
+        }
 
         if (isset($this->__functions['main'])) {
             $this->__call('main');
