@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SWF\Interface;
 
 use SWF\Exception\TemplaterException;
-use SWF\ProcessedTemplate;
+use SWF\TransformedTemplate;
 
 interface TemplaterInterface
 {
@@ -15,7 +15,7 @@ interface TemplaterInterface
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): ProcessedTemplate;
+    public function transform(string $filename, ?array $data = null): TransformedTemplate;
 
     /**
      * Gets timer of processed templates.

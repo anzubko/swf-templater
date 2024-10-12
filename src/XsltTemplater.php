@@ -36,7 +36,7 @@ class XsltTemplater extends AbstractTemplater
      *
      * @throws TemplaterException
      */
-    public function transform(string $filename, ?array $data = null): ProcessedTemplate
+    public function transform(string $filename, ?array $data = null): TransformedTemplate
     {
         $timer = gettimeofday(true);
 
@@ -65,6 +65,6 @@ class XsltTemplater extends AbstractTemplater
 
         $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        return new ProcessedTemplate($body, $normalizedFilename->getType());
+        return new TransformedTemplate($body, $normalizedFilename->getType());
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SWF;
 
-final readonly class ProcessedTemplate
+final readonly class TransformedTemplate
 {
     public function __construct(
         private string $body,
@@ -12,7 +12,7 @@ final readonly class ProcessedTemplate
     }
 
     /**
-     * Gets body of processed template.
+     * Gets body of transformed template.
      */
     public function getBody(): string
     {
@@ -20,7 +20,7 @@ final readonly class ProcessedTemplate
     }
 
     /**
-     * Gets mime type of processed template.
+     * Gets mime type of transformed template.
      */
     public function getType(): string
     {
