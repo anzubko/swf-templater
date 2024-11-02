@@ -48,7 +48,7 @@ abstract class AbstractTemplater implements TemplaterInterface
             $type = TemplaterRegistry::$supportedTypesByExtensions[$M[1]] ?? null;
         }
 
-        if (null !== $dir) {
+        if ($dir !== null) {
             $filename = sprintf('%s/%s', $dir, $filename);
         }
 
