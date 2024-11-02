@@ -27,7 +27,7 @@ class HTMLMinifier extends AbstractPostProcessor
     protected static function between(string $chunk): string
     {
         $chunk = trim((string) preg_replace('/<!--.*?-->/s', '', $chunk));
-        if ('' === $chunk) {
+        if ($chunk === '') {
             return '';
         }
 

@@ -64,7 +64,7 @@ class ArrayToSXE
     private static function transformRecursiveSXE(SimpleXMLElement $sxe, SimpleXMLElement $object, string $name): void
     {
         $node = dom_import_simplexml($sxe->addChild($name));
-        if (null === $node->ownerDocument) {
+        if ($node->ownerDocument === null) {
             return;
         }
 

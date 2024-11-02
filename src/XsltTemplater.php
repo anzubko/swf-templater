@@ -59,7 +59,7 @@ class XsltTemplater extends AbstractTemplater
         $sxe = ArrayToSXE::transform($data + $this->globals, $this->root, $this->item);
 
         $body = $this->processors[$normalizedFilename->filename]->transformToXML($sxe) ?? '';
-        if (false === $body) {
+        if ($body === false) {
             throw new TemplaterException('XSL transform error');
         }
 

@@ -61,7 +61,7 @@ class NativeIsolator
         } catch (Throwable $e) {
             if ($e->getFile() === __FILE__) {
                 foreach ($e->getTrace() as $trace) {
-                    if (__FILE__ === ($trace['file'] ?? '')) {
+                    if (($trace['file'] ?? '') === __FILE__) {
                         continue;
                     }
 

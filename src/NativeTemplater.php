@@ -26,7 +26,7 @@ class NativeTemplater extends AbstractTemplater
         protected array $functions = [],
     ) {
         $this->functions['h'] ??= function (?string $string): string {
-            if (null === $string) {
+            if ($string === null) {
                 return '';
             }
 
@@ -34,7 +34,7 @@ class NativeTemplater extends AbstractTemplater
         };
 
         $this->functions['u'] ??= function (?string $string): string {
-            if (null === $string) {
+            if ($string === null) {
                 return '';
             }
 
@@ -42,7 +42,7 @@ class NativeTemplater extends AbstractTemplater
         };
 
         $this->functions['j'] ??= function (?string $string): string {
-            if (null === $string) {
+            if ($string === null) {
                 return '""';
             }
 
@@ -79,7 +79,7 @@ class NativeTemplater extends AbstractTemplater
 
         $body = (string) ob_get_clean();
 
-        if ($this->minify && 'text/html' === $normalizedFilename->type) {
+        if ($this->minify && $normalizedFilename->type === 'text/html') {
             if ($this->debug) {
                 $body = HTMLDebugger::transform($body);
             } else {
