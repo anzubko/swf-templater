@@ -42,9 +42,9 @@ class XsltTemplater extends AbstractTemplater
 
         $normalizedFilename = $this->normalizeFilename($filename, 'xsl', $this->dir);
 
-        if (!isset($this->processors[$normalizedFilename->getFilename()])) {
+        if (!isset($this->processors[$normalizedFilename->filename])) {
             $doc = new DOMDocument();
-            if (!$doc->load($normalizedFilename->getFilename(), LIBXML_NOCDATA)) {
+            if (!$doc->load($normalizedFilename->filename, LIBXML_NOCDATA)) {
                 throw new TemplaterException('XSL loading error');
             }
 
@@ -53,18 +53,18 @@ class XsltTemplater extends AbstractTemplater
                 throw new TemplaterException('XSL import error');
             }
 
-            $this->processors[$normalizedFilename->getFilename()] = $processor;
+            $this->processors[$normalizedFilename->filename] = $processor;
         }
 
         $sxe = ArrayToSXE::transform($data + $this->globals, $this->root, $this->item);
 
-        $body = $this->processors[$normalizedFilename->getFilename()]->transformToXML($sxe) ?? '';
+        $body = $this->processors[$normalizedFilename->filename]->transformToXML($sxe) ?? '';
         if (false === $body) {
             throw new TemplaterException('XSL transform error');
         }
 
         $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        return new TransformedTemplate($body, $normalizedFilename->getType());
+        return new TransformedTemplate($body, $normalizedFilename->type);
     }
 }

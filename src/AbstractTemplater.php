@@ -40,7 +40,7 @@ abstract class AbstractTemplater implements TemplaterInterface
     {
         $dotExtension = sprintf('.%s', $extension);
         if (!str_ends_with($filename, $dotExtension)) {
-            $filename .= $dotExtension;
+            $filename = $filename . $dotExtension;
         }
 
         $type = null;

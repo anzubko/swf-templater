@@ -68,7 +68,7 @@ class NativeTemplater extends AbstractTemplater
         }
 
         try {
-            new NativeIsolator($normalizedFilename->getFilename(), $data + $this->globals, $this->functions);
+            new NativeIsolator($normalizedFilename->filename, $data + $this->globals, $this->functions);
         } catch (Throwable $e) {
             while (ob_get_length()) {
                 ob_end_clean();
@@ -79,7 +79,7 @@ class NativeTemplater extends AbstractTemplater
 
         $body = (string) ob_get_clean();
 
-        if ($this->minify && 'text/html' === $normalizedFilename->getType()) {
+        if ($this->minify && 'text/html' === $normalizedFilename->type) {
             if ($this->debug) {
                 $body = HTMLDebugger::transform($body);
             } else {
@@ -89,6 +89,6 @@ class NativeTemplater extends AbstractTemplater
 
         $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        return new TransformedTemplate($body, $normalizedFilename->getType());
+        return new TransformedTemplate($body, $normalizedFilename->type);
     }
 }

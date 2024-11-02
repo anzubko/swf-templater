@@ -65,13 +65,13 @@ class TwigTemplater extends AbstractTemplater
         $normalizedFilename = $this->normalizeFilename($filename, 'twig');
 
         try {
-            $body = $this->twig->render($normalizedFilename->getFilename(), $data + $this->globals);
+            $body = $this->twig->render($normalizedFilename->filename, $data + $this->globals);
         } catch (Throwable $e) {
             throw (new TemplaterException($e->getMessage()))->setFileAndLine($e->getFile(), $e->getLine());
         }
 
         $this->incTimerAndCounter(gettimeofday(true) - $timer);
 
-        return new TransformedTemplate($body, $normalizedFilename->getType());
+        return new TransformedTemplate($body, $normalizedFilename->type);
     }
 }
